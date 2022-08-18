@@ -4,6 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
+import FittedSheets
 import UIKit
 import WebKit
 import WalletCore
@@ -11,10 +12,9 @@ import TrustWeb3Provider
 
 class DAppWebViewController: UIViewController {
 
-    @IBOutlet weak var urlField: UITextField!
 
     var homepage: String {
-        return "https://solanart.io"
+        return "http://10.0.0.248:1234"
     }
 
     static let solanaRPC = "https://api.mainnet-beta.solana.com"
@@ -39,6 +39,20 @@ class DAppWebViewController: UIViewController {
             rpcUrl: "https://rpc.ftm.tools"
         )
     ]
+    
+    func showModal() -> SheetViewController{
+        let someController = OptionsTableViewController()
+        let sheetViewController = SheetViewController(controller: someController, sizes: [.percent(0.3)])
+        // sheetViewController.willMove(toParent: self)
+        // self.addChild(sheetViewController)
+        // view.addSubview(sheetViewController.view)
+        // sheetViewController.didMove(toParent: self)
+        // view.addSubview(sheetViewController)
+        // sheetViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return sheetViewController
+        
+    }
 
     lazy var webview: WKWebView = {
         let config = WKWebViewConfiguration()
@@ -62,17 +76,18 @@ class DAppWebViewController: UIViewController {
         super.viewDidAppear(animated)
 
         setupSubviews()
-        urlField.text = homepage
         navigate(to: homepage)
     }
 
     func setupSubviews() {
+        /*
         urlField.keyboardType = .URL
         urlField.delegate = self
+        */
 
         view.addSubview(webview)
         NSLayoutConstraint.activate([
-            webview.topAnchor.constraint(equalTo: urlField.bottomAnchor),
+            webview.topAnchor.constraint(equalTo: view.topAnchor),
             webview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -224,6 +239,7 @@ extension DAppWebViewController: WKScriptMessageHandler {
     }
 
     func handleSolanaSignMessage(id: Int64, data: Data) {
+        /*
         let alert = UIAlertController(
             title: "Sign Solana Message",
             message: String(data: data, encoding: .utf8) ?? data.hexString,
@@ -236,7 +252,10 @@ extension DAppWebViewController: WKScriptMessageHandler {
             let signed = Self.privateKey.sign(digest: data, curve: .ed25519)!
             webview?.tw.send(network: .solana, result: "0x" + signed.hexString, to: id)
         }))
-        present(alert, animated: true, completion: nil)
+         */
+            
+        
+        present(self.showModal(), animated: true, completion: nil)
     }
 
     func handleSignRawTransaction(id: Int64, raw: String) {
