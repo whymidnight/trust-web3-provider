@@ -9,7 +9,7 @@
 import TrustWeb3Provider from "./ethereum_provider";
 import TrustSolanaWeb3Provider from "./solana_provider";
 
-window.trustwallet = {
+window.triptychlabs = {
   Provider: TrustWeb3Provider,
   SolanaProvider: TrustSolanaWeb3Provider,
   postMessage: null,

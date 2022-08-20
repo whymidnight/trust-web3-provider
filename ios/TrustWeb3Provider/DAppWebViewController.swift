@@ -14,7 +14,7 @@ class DAppWebViewController: UIViewController {
 
 
     var homepage: String {
-        return "http://10.0.0.248:1234"
+        return "http://10.0.0.248:3000"
     }
 
     static let solanaRPC = "https://api.mainnet-beta.solana.com"
